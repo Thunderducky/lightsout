@@ -1,3 +1,6 @@
+mod breakout;
+mod lightsout;
 fn main() {
-    println!("Hello, world!");
+    // breakout::breakout();
+    lightsout::lightsout();
 }
