@@ -4,6 +4,10 @@
   * Detect impossible levels and offer to fix them
   * Include a "Slow solver" as a benchmark
   * Include an "Optimal" solver
+  * Include Medals, both for Speed and for Minimum moves
+    * Bronze, Silver, Gold, ACE
+    * Maybe even try out a local leaderboard
+    
 * Build a tutorial and teach how to solve lights out puzzles?
 * Loop the music
 * create pause menu enabling volume control, mute, restart, or new puzzle

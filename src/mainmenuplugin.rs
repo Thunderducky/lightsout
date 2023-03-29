@@ -32,10 +32,7 @@ impl Plugin for MainMenuPlugin {
     }
 }
 
-fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>,audio:Res<Audio>) {
-    let music = asset_server.load("./audio/Carefree.mp3");
-    audio.play(music);
-
+fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
         .spawn((
             NodeBundle {

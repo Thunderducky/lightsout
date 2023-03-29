@@ -30,9 +30,13 @@ pub fn lightsout() {
 }
 
 fn setup(
-    mut commands: Commands
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    audio: Res<Audio>
     // , mut next_state: ResMut<NextState<AppState>>,
 ) {
     commands.spawn(Camera2dBundle::default());
+    let music = asset_server.load("./audio/Carefree.mp3");
+    audio.play(music);
     // next_state.set(AppState::Victory)
 }

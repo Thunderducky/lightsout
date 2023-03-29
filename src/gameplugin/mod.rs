@@ -6,6 +6,8 @@ const ON_BUTTON: Color = Color::hsl(195., 1., 0.7);
 const HOVERED_BUTTON: Color = Color::hsl(195., 0.5, 0.5);
 const PRESSED_BUTTON: Color = Color::hsl(195., 0.8, 0.9);
 
+mod tile_solver;
+
 pub struct GamePlugin;
 
 #[derive(Component)]
@@ -55,19 +57,20 @@ impl Plugin for GamePlugin {
 }
 
 fn initialize_level(mut commands: Commands) {
-    let mut checker = tile_checker::TileChecker::new();
-    for x in 0..5 {
-        for y in 0..5 {
-            let on = checker.check(rand::random());
-            commands.spawn(build_tile_setup(
-                (x - 2) as f32 * 60.,
-                (y - 2) as f32 * 60.,
-                x,
-                y,
-                on
-            ));
-        }
+    let mut solver = tile_solver::TileSolver::generate_random_puzzle();
+    for (index, val) in solver.tile_layout.iter().enumerate() {
+        let x = (index % 5) as i32;
+        let y = (index / 5) as i32;
+        commands.spawn(build_tile_setup(
+            (x - 2) as f32 * 60.,
+            (y - 2) as f32 * 60.,
+            x,
+            y as i32,
+            *val == 1
+        ));
     }
+    let result = solver.solve();
+    info!("Solution: {:?}", result);
 }
 // We're going to use this later to allow us to play again or maybe to do a race with levels?
 #[allow(dead_code)]
