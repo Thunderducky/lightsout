@@ -102,7 +102,11 @@ fn process_mouse_commands(
     mut selected_tile: ResMut<SelectedTile>,
     camera_q: Query<(&Camera, &GlobalTransform)>,
     query: Query<(&Tile, &Transform)>,
+    asset_server: Res<AssetServer>,
+    audio: Res<Audio>
 ) {
+    let sound = asset_server.load("./audio/switch30.ogg");
+    
     let camera = camera_q.single();
     let world_point_option = utils::screen_to_world(camera, mouse_settings.mouse_position);
     
@@ -115,6 +119,7 @@ fn process_mouse_commands(
                 selected_tile.tile_position = Some((tile.x, tile.y));
                 if mouse_settings.new_mouse_release {
                     selected_tile.clicked = true;
+                    audio.play(sound.clone());
                 }
             }
         }

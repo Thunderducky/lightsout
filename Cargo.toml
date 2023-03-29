@@ -8,7 +8,7 @@ edition = "2021"
 resolve = "2"
 
 [dependencies]
-bevy = { version = "0.10.0", features = ["dynamic_linking"] }
+bevy = { version = "0.10.0", features = ["dynamic_linking", "mp3"] }
 
 # Enable a small amount of optimization in debug mode
 [profile.dev]
