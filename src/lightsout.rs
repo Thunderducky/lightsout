@@ -18,7 +18,7 @@ pub enum AppState {
 pub fn lightsout() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugin(WorldInspectorPlugin::new())
+        // .add_plugin(WorldInspectorPlugin::new())
         .insert_resource(ClearColor(BACKGROUND_COLOR))
         .add_state::<AppState>()
         .add_plugin(gameplugin::GamePlugin)

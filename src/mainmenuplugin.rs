@@ -116,4 +116,3 @@ fn main_menu_teardown(mut commands: Commands, query: Query<Entity, With<MainMenu
     }
 }
 
-// Let's make a transition timer
