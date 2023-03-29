@@ -135,7 +135,7 @@ fn process_mouse_commands(
                 selected_tile.tile_position = Some((tile.x, tile.y));
                 if mouse_settings.new_mouse_release {
                     selected_tile.clicked = true;
-                    audio.play(sound.clone());
+                    audio.play_with_settings(sound.clone(), PlaybackSettings::default().with_volume(0.1));
                 }
             }
         }
