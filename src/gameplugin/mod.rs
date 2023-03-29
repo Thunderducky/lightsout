@@ -1,7 +1,6 @@
 use bevy::prelude::*;
-
 use crate::{utils, lightsout::AppState};
-
+mod tile_checker;
 const OFF_BUTTON: Color = Color::hsl(195., 1., 0.2);
 const ON_BUTTON: Color = Color::hsl(195., 1., 0.7);
 const HOVERED_BUTTON: Color = Color::hsl(195., 0.5, 0.5);
@@ -43,7 +42,7 @@ impl Plugin for GamePlugin {
                 tile_position: None,
                 clicked: false,
             })
-            .add_system(setup_level.in_schedule(OnEnter(AppState::Game)))
+            .add_system(initialize_level.in_schedule(OnEnter(AppState::Game)))
             .add_system(teardown_level.in_schedule(OnExit(AppState::Game)))
             .add_systems((
                 process_mouse_events_system,
@@ -55,16 +54,27 @@ impl Plugin for GamePlugin {
     }
 }
 
-fn setup_level(mut commands: Commands) {
+fn initialize_level(mut commands: Commands) {
+    let mut checker = tile_checker::TileChecker::new();
     for x in 0..5 {
         for y in 0..5 {
+            let on = checker.check(rand::random());
             commands.spawn(build_tile_setup(
                 (x - 2) as f32 * 60.,
                 (y - 2) as f32 * 60.,
                 x,
                 y,
+                on
             ));
         }
+    }
+}
+// We're going to use this later to allow us to play again or maybe to do a race with levels?
+#[allow(dead_code)]
+fn shuffle(mut tile_query: Query<&mut Tile>) {
+    let mut checker = tile_checker::TileChecker::new();
+    for mut tile in tile_query.iter_mut() {
+        tile.on = checker.check(rand::random());
     }
 }
 
@@ -74,7 +84,7 @@ fn teardown_level(mut commands: Commands, query: Query<Entity, With<InGame>>) {
     }
 }
 
-fn build_tile_setup(x: f32, y: f32, index_x: i32, index_y: i32) -> (SpriteBundle, Tile, InGame) {
+fn build_tile_setup(x: f32, y: f32, index_x: i32, index_y: i32, on:bool) -> (SpriteBundle, Tile, InGame) {
     (
         SpriteBundle {
             transform: Transform {
@@ -83,7 +93,10 @@ fn build_tile_setup(x: f32, y: f32, index_x: i32, index_y: i32) -> (SpriteBundle
                 ..default()
             },
             sprite: Sprite {
-                color: ON_BUTTON,
+                color: match on {
+                    true => ON_BUTTON,
+                    false => OFF_BUTTON,
+                },
                 ..default()
             },
             ..default()
@@ -91,7 +104,7 @@ fn build_tile_setup(x: f32, y: f32, index_x: i32, index_y: i32) -> (SpriteBundle
         Tile {
             x: index_x,
             y: index_y,
-            on: true,
+            on,
         },
         InGame,
     )

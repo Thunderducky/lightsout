@@ -9,6 +9,8 @@ resolve = "2"
 
 [dependencies]
 bevy = { version = "0.10.0", features = ["dynamic_linking", "mp3"] }
+bevy-inspector-egui = "0.18.1"
+rand = "0.8.5"
 
 # Enable a small amount of optimization in debug mode
 [profile.dev]
