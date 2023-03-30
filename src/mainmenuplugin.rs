@@ -44,7 +44,7 @@ fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                 },
                 ..default()
             },
-            MainMenuUI,
+            MainMenuUI {},
         ))
         .with_children(|parent| {
             parent
@@ -112,7 +112,7 @@ fn main_menu_update(
 }
 fn main_menu_teardown(mut commands: Commands, query: Query<Entity, With<MainMenuUI>>) {
     for entity in query.iter() {
-        commands.entity(entity).despawn();
+        commands.entity(entity).despawn_recursive();
     }
 }
 

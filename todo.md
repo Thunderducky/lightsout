@@ -18,6 +18,8 @@
   * Version 1: Web
   * Version 2: Downloadable
 
+* Get working on mobile
+
 # DONE
 * Try doing a "lights out" game
 * Create a main menu
