@@ -10,9 +10,9 @@ function getObject(idx) { return heap[idx]; }
 let heap_next = heap.length;
 
 function dropObject(idx) {
-    if (idx < 132) return;
-    heap[idx] = heap_next;
-    heap_next = idx;
+    // if (idx < 132) return;
+    // heap[idx] = heap_next;
+    // heap_next = idx;
 }
 
 function takeObject(idx) {
