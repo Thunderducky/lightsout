@@ -1,5 +1,6 @@
 [package]
 name = "learn-bevy"
+publish = false
 version = "0.1.0"
 edition = "2021"
 
@@ -7,15 +8,34 @@ edition = "2021"
 [workspace]
 resolve = "2"
 
-[dependencies]
-bevy = { version = "0.10.0", features = ["dynamic_linking", "mp3"] }
-bevy-inspector-egui = "0.18.1"
-rand = "0.8.5"
-
 # Enable a small amount of optimization in debug mode
 [profile.dev]
 opt-level = 1
 
+[profile.release]
+lto = true
+codegen-units = 1
+
+# The profile that 'cargo dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
+
+[features]
+dev = [
+    "bevy/bevy_dylib",
+]
+
 # Enable high optimizations for dependencies (incl. Bevy), but not for our code:
 [profile.dev.package."*"]
 opt-level = 3
+
+[dependencies]
+bevy = { version = "0.10.0", features = ["mp3"] }
+bevy-inspector-egui = "0.18.1"
+bevy_asset_loader = { version = "0.15" }
+rand = "0.8.5"
+
+[build-dependencies]
+embed-resource = "1.4"
+

@@ -36,7 +36,7 @@ fn setup(
     // , mut next_state: ResMut<NextState<AppState>>,
 ) {
     commands.spawn(Camera2dBundle::default());
-    let music = asset_server.load("./audio/Carefree.mp3");
-    audio.play_with_settings(music, PlaybackSettings { repeat: true, volume: 0.05, speed: 1. });
+    // let music = asset_server.load("./audio/Carefree.mp3");
+    //audio.play_with_settings(music, PlaybackSettings { repeat: true, volume: 0.05, speed: 1. });
     // next_state.set(AppState::Victory)
 }

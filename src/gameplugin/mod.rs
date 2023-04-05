@@ -121,7 +121,7 @@ fn process_mouse_commands(
     asset_server: Res<AssetServer>,
     audio: Res<Audio>
 ) {
-    let sound = asset_server.load("./audio/switch30.ogg");
+    //let sound = asset_server.load("./audio/switch30.ogg");
     
     let camera = camera_q.single();
     let world_point_option = utils::screen_to_world(camera, mouse_settings.mouse_position);
@@ -135,7 +135,7 @@ fn process_mouse_commands(
                 selected_tile.tile_position = Some((tile.x, tile.y));
                 if mouse_settings.new_mouse_release {
                     selected_tile.clicked = true;
-                    audio.play_with_settings(sound.clone(), PlaybackSettings::default().with_volume(0.1));
+                    //audio.play_with_settings(sound.clone(), PlaybackSettings::default().with_volume(0.1));
                 }
             }
         }
