@@ -19,7 +19,7 @@ impl Plugin for GamePlugin {
 
 fn game_enter(mut commands: Commands, mut tile_puzzle: ResMut<TilePuzzle>) {
     // Initialize a level
-    tile_puzzle.easy_puzzle();
+    tile_puzzle.generate_random_puzzle();
 
     for (index, value) in tile_puzzle.tile_values.iter().enumerate() {
         let x = (index % 5) as i32;
