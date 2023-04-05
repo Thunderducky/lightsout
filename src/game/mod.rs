@@ -19,7 +19,7 @@ impl Plugin for GamePlugin {
 
 fn game_enter(mut commands: Commands, mut tile_puzzle: ResMut<TilePuzzle>) {
     // Initialize a level
-    tile_puzzle.generate_random_puzzle();
+    tile_puzzle.easy_puzzle();
 
     for (index, value) in tile_puzzle.tile_values.iter().enumerate() {
         let x = (index % 5) as i32;
@@ -35,27 +35,38 @@ fn game_enter(mut commands: Commands, mut tile_puzzle: ResMut<TilePuzzle>) {
 }
 fn process_actions(
     action: Res<Actions>,
+    mut state: ResMut<NextState<AppState>>,
     mut tile_puzzle: ResMut<TilePuzzle>,
     mut tiles: Query<(&mut TileInfo, &mut Sprite)>,
 ) {
+    // Handle Clicks
     if action.clicked {
         if let Some((x, y)) = action.grid_selection {
             tile_puzzle.toggle_tile(x, y);
+
+            // Don't need to do this all the time
+            for (tile_info, mut sprite) in tiles.iter_mut() {
+                let index = (tile_info.grid_y * tile_puzzle.width + tile_info.grid_x) as usize;
+                sprite.color = match tile_puzzle.tile_values[index] {
+                    true => ON_BUTTON,
+                    false => OFF_BUTTON,
+                };
+            }
         }
     }
+    if tile_puzzle.is_solved() {
+        info!("You win!");
+        state.set(AppState::Victory);
 
-    // Don't need to do this all the time
-    for (tile_info, mut sprite) in tiles.iter_mut() {
-        let index = (tile_info.grid_y * tile_puzzle.width + tile_info.grid_x) as usize;
-        sprite.color = match tile_puzzle.tile_values[index]
-        {
-            true => ON_BUTTON,
-            false => OFF_BUTTON,
-        };
     }
+    // check for victory
 }
 
-fn game_exit() {}
+fn game_exit(mut commands: Commands, query: Query<Entity, With<TileInfo>>) {
+  for entity in query.iter() {
+      commands.entity(entity).despawn();
+  }
+}
 
 #[derive(Component)]
 pub struct TileInfo {

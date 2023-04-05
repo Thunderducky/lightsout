@@ -39,6 +39,15 @@ impl TilePuzzle {
         }
     }
 
+    pub fn easy_puzzle(&mut self) {
+        for index in 0..self.tile_values.len() {
+            self.tile_values[index] = false;
+        }
+        self.tile_values[0] = true;
+        self.tile_values[1] = true;
+        self.tile_values[5] = true;
+    }
+
     pub fn toggle_tile(&mut self, x: i32, y: i32) {
         let index = (y * self.width) + x;
         self.tile_values[index as usize] = !self.tile_values[index as usize];
@@ -54,5 +63,14 @@ impl TilePuzzle {
         }
         let index = (y * self.width) + x;
         self.tile_values[index as usize] = !self.tile_values[index as usize];
+    }
+
+    pub fn is_solved(&mut self) -> bool {
+        for index in 0..self.tile_values.len() {
+            if self.tile_values[index] {
+                return false;
+            }
+        }
+        true
     }
 }

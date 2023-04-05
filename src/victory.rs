@@ -1,13 +1,14 @@
 use bevy::prelude::*;
 
-use crate::lightsout::AppState;
+use crate::AppState;
 
-pub struct VictoryScreenPlugin;
+
+pub struct VictoryPlugin;
 
 #[derive(Component)]
 struct VictoryUI;
 
-impl Plugin for VictoryScreenPlugin {
+impl Plugin for VictoryPlugin {
     fn build(&self, app: &mut App) {
       app.add_system(victory_setup.in_schedule(OnEnter(AppState::Victory)))
         .add_system(victory_teardown.in_schedule(OnExit(AppState::Victory)));
