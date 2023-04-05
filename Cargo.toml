@@ -1,12 +1,8 @@
 [package]
-name = "learn-bevy"
+name = "illumination-no-no"
 publish = false
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-[workspace]
-resolve = "2"
 
 # Enable a small amount of optimization in debug mode
 [profile.dev]
@@ -26,12 +22,34 @@ dev = [
     "bevy/bevy_dylib",
 ]
 
+default = [
+    "bevy/animation",
+    "bevy/bevy_asset",
+    "bevy/bevy_scene",
+    "bevy/bevy_winit",
+    "bevy/bevy_core_pipeline",
+    "bevy/bevy_pbr",
+    "bevy/bevy_gltf",
+    "bevy/bevy_render",
+    "bevy/bevy_sprite",
+    "bevy/bevy_text",
+    "bevy/bevy_ui",
+    "bevy/png",
+    "bevy/hdr",
+    "bevy/zstd",
+    "bevy/x11",
+    "bevy/ktx2",
+    "bevy/filesystem_watcher",
+    "bevy/tonemapping_luts"
+]
+
 # Enable high optimizations for dependencies (incl. Bevy), but not for our code:
 [profile.dev.package."*"]
 opt-level = 3
 
 [dependencies]
-bevy = { version = "0.10.0", features = ["mp3"] }
+bevy = { version = "0.10.0", default-features = false }
+bevy_kira_audio = { version = "0.15", features = ["mp3"] }
 bevy-inspector-egui = "0.18.1"
 bevy_asset_loader = { version = "0.15" }
 rand = "0.8.5"

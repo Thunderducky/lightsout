@@ -103,8 +103,6 @@ impl TileSolver {
             0 => 1,
             _ => 0,
         };
-        
-
     }
 
     fn is_solved(&mut self) -> bool {

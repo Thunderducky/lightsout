@@ -29,11 +29,6 @@ impl TileChecker {
 
         // For the last two, we need to ensure that a valid pattern is created
         if self.index == 23 {
-            // This is our last chance to mark Pattern 1 by itself
-            // If we need to mark Pattern 2 (i.e. we have an odd number of Pattern 2 matches)
-            // We need to account for the fact that that'll jostle the number of Pattern 1 matches
-            // therefore, if we need to mark 24, and we have an even number of Pattern 1 matches
-            // this will need to be marked on, otherwise we'll need it to be marked false
             final_on = (self.pattern_1_matches % 2 == 0) ^ (self.pattern_2_matches % 2 == 0)
         }
         if self.index == 24 {

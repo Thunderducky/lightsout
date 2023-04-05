@@ -1,12 +1,12 @@
 use bevy::prelude::*;
-use crate::{utils, lightsout::AppState};
-mod tile_checker;
-const OFF_BUTTON: Color = Color::hsl(195., 1., 0.2);
-const ON_BUTTON: Color = Color::hsl(195., 1., 0.7);
-const HOVERED_BUTTON: Color = Color::hsl(195., 0.5, 0.5);
-const PRESSED_BUTTON: Color = Color::hsl(195., 0.8, 0.9);
+// use crate::{utils, lightsout::AppState};
+// mod tile_checker;
+// const OFF_BUTTON: Color = Color::hsl(195., 1., 0.2);
+// const ON_BUTTON: Color = Color::hsl(195., 1., 0.7);
+// const HOVERED_BUTTON: Color = Color::hsl(195., 0.5, 0.5);
+// const PRESSED_BUTTON: Color = Color::hsl(195., 0.8, 0.9);
 
-mod tile_solver;
+// mod tile_solver;
 
 pub struct GamePlugin;
 
