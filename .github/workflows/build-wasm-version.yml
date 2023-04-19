@@ -1,0 +1,55 @@
+name: Build WASM Version
+run-name: Building WASM Version - ${{ github.actor }}
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-wasm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out repo
+        uses: actions/checkout@v3
+      - name: 🛠 Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: 🚧 Install Build Dependencies
+        run: sudo apt-get update; sudo apt-get install -y pkg-config libx11-dev libasound2-dev libudev-dev openssl
+      - name: 🩳 Install trunk
+        uses: jetli/trunk-action@v0.1.0
+        with:
+          version: "latest"
+      - name: Add wasm target
+        run: |
+          rustup target add wasm32-unknown-unknown
+      - name: Build Release
+        run: |
+          trunk build --release --public-url "${GITHUB_REPOSITORY#*/}"
+      - name: optimize Wasm
+        uses: NiklasEi/wasm-opt-action@v2
+        with:
+          file: dist/*.wasm
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages
+          folder: dist
+      # - name: 📦 wasm-pack-action  # install wasm-pack
+      #   uses: jetli/wasm-pack-action@v0.4.0
+      # # - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      # # - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      # # - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      # - name: Checking out repository code
+      #   uses: actions/checkout@v3
+      # # - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      # # - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      # # - name: List files in the repository
+      # #   run: |
+      # #     ls ${{ github.workspace }}
+      # - run: echo "🍏 Job completed with a status of ${{ job.status }}."
