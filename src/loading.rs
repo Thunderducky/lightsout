@@ -13,7 +13,6 @@ impl Plugin for LoadingPlugin {
     )
     .add_collection_to_loading_state::<_, FontAssets>(AppState::Loading)
     .add_collection_to_loading_state::<_, AudioAssets>(AppState::Loading)
-    //.add_collection_to_loading_state::<_, TextureAssets>(GameState::Loading);
     ;
   }
 }
@@ -35,9 +34,3 @@ pub struct AudioAssets {
     #[asset(path = "audio/switch30.ogg")]
     pub click_fx: Handle<AudioSource>,
 }
-
-// #[derive(AssetCollection, Resource)]
-// pub struct TextureAssets {
-//     #[asset(path = "textures/bevy.png")]
-//     pub texture_bevy: Handle<Image>,
-// }

@@ -22,7 +22,6 @@ struct SoundFxAudio(Handle<AudioInstance>);
 
 
 fn start_audio(mut commands: Commands, audio_assets: Res<AudioAssets>, audio: Res<Audio>) {
-  //audio.pause();
   let music_handle = audio
       .play(audio_assets.bg_music.clone())
       .looped()
@@ -32,4 +31,3 @@ fn start_audio(mut commands: Commands, audio_assets: Res<AudioAssets>, audio: Re
 }
 
 // TODO: handle sound effects based off of input
-// Add Victory Check

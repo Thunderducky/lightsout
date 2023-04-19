@@ -14,7 +14,7 @@ fn main() {
         .insert_resource(ClearColor(BACKGROUND_COLOR))
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
-                title: "Illumination No No".to_string(), // ToDo
+                title: "Illumination No No".to_string(),
                 resolution: (800., 600.).into(),
                 canvas: Some("#bevy".to_owned()),
                 ..default()
