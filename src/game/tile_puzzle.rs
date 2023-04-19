@@ -1,10 +1,18 @@
 use bevy::prelude::Resource;
 
 const PATTERN_1: [i32; 25] = [
-    0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0,
+    1, 0, 1, 0, 1, 
+    1, 0, 1, 0, 1, 
+    0, 0, 0, 0, 0, 
+    1, 0, 1, 0, 1, 
+    1, 0, 1, 0, 1,
 ];
 const PATTERN_2: [i32; 25] = [
-    0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0,
+    1, 1, 0, 1, 1, 
+    0, 0, 0, 0, 0, 
+    1, 1, 0, 1, 1, 
+    0, 0, 0, 0, 0, 
+    1, 1, 0, 1, 1,
 ];
 
 #[derive(Default, Resource)]
@@ -28,14 +36,21 @@ impl TilePuzzle {
         let mut pattern_2_matches = 0;
         for index in 0..self.tile_values.len() {
             let mut on = rand::random();
+            // Index 23, 
+            //if both pattern counts are even, leave them alone
+            // if pattern 1 is even and pattern 2 is odd, turn it on
+            // if pattern 2 is odd and pattern 1 is odd, leave it off
+            // if pattern 2 is odd and pattern 1 is even, turn it on
             if index == 23 {
                 on = (pattern_1_matches % 2 == 0) ^ (pattern_2_matches % 2 == 0)
-            } else if index == 24 {
-                on = pattern_2_matches % 2 == 1;
+            } 
+            // If pattern 1 is odd, turn it on
+            else if index == 24 {
+                on = pattern_1_matches % 2 == 1;
             }
             self.tile_values[index] = on;
-            pattern_1_matches += PATTERN_1[index];
-            pattern_2_matches += PATTERN_2[index];
+            pattern_1_matches += match on { true => PATTERN_1[index], false => 0 };
+            pattern_2_matches += match on { true => PATTERN_2[index], false => 0 };
         }
     }
 

@@ -25,7 +25,7 @@ fn start_audio(mut commands: Commands, audio_assets: Res<AudioAssets>, audio: Re
   let music_handle = audio
       .play(audio_assets.bg_music.clone())
       .looped()
-      .with_volume(0.8)
+      .with_volume(0.1)
       .handle();
     commands.insert_resource(BgMusicAudio(music_handle));
 }
