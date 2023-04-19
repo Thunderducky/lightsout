@@ -1,9 +1,12 @@
 pub mod actions;
 mod tile_puzzle;
+mod puzzle_word_encoder;
 
 use self::{actions::Actions, tile_puzzle::TilePuzzle};
 use crate::AppState;
 use bevy::prelude::*;
+
+
 
 pub struct GamePlugin;
 

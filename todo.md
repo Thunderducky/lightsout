@@ -1,4 +1,5 @@
 # TODO
+* Better Lightsout Explanation
 * Allow New Games without restarts
 * Setup DEBUG/CREATOR mode
   * create to allow share
@@ -31,7 +32,6 @@
 * Loop the music
 
 # Resources
-* LDtk for level design setup - https://ldtk.io/ (Electron app)
 * Belly: https://github.com/jkb0o/belly
 * Kayak UI: https://github.com/StarArawn/kayak_ui
 * https://www.logicgamesonline.com/lightsout/tutorial.html
