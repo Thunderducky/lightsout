@@ -108,3 +108,14 @@ impl TilePuzzle {
         true
     }
 }
+
+/* 
+    TODO: Including:
+    - Puzzle generation
+        - Solvability
+    - Puzzle encoding
+        - Short code
+    - Puzzle decoding
+        - Short code
+    - Puzzle Solving
+*/

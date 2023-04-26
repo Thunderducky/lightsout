@@ -3,6 +3,7 @@ mod mainmenu;
 mod audio;
 mod game;
 mod victory;
+mod gameui;
 
 use bevy::prelude::*;
 

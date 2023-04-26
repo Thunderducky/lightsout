@@ -1,12 +1,10 @@
 pub mod actions;
-mod tile_puzzle;
 mod puzzle_word_encoder;
+mod tile_puzzle;
 
 use self::{actions::Actions, tile_puzzle::TilePuzzle};
 use crate::AppState;
 use bevy::prelude::*;
-
-
 
 pub struct GamePlugin;
 
@@ -43,7 +41,7 @@ fn process_actions(
     mut tiles: Query<(&mut TileInfo, &mut Sprite)>,
 ) {
     // Handle Clicks
-    if action.clicked {
+    if action.activated {
         if let Some((x, y)) = action.grid_selection {
             tile_puzzle.toggle_tile(x, y);
 
@@ -60,15 +58,14 @@ fn process_actions(
     if tile_puzzle.is_solved() {
         info!("You win!");
         state.set(AppState::Victory);
-
     }
     // check for victory
 }
 
 fn game_exit(mut commands: Commands, query: Query<Entity, With<TileInfo>>) {
-  for entity in query.iter() {
-      commands.entity(entity).despawn();
-  }
+    for entity in query.iter() {
+        commands.entity(entity).despawn();
+    }
 }
 
 #[derive(Component)]
@@ -77,7 +74,7 @@ pub struct TileInfo {
     pub grid_y: i32,
     pub light_on: bool,
 }
-// TODO: Convert this to a resource
+// TODO: Convert this to a resource, also, convert this in the colorize plugin
 const OFF_BUTTON: Color = Color::hsl(195., 1., 0.2);
 const ON_BUTTON: Color = Color::hsl(195., 1., 0.7);
 

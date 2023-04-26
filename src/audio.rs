@@ -1,4 +1,3 @@
-// use crate::game::actions::Actions;
 use crate::loading::AudioAssets;
 use crate::AppState;
 use bevy::prelude::*;
@@ -30,4 +29,16 @@ fn start_audio(mut commands: Commands, audio_assets: Res<AudioAssets>, audio: Re
     commands.insert_resource(BgMusicAudio(music_handle));
 }
 
-// TODO: handle sound effects based off of input
+// Todo: Events and Systems to control the audio
+// Create sound "labels" so the specific sounds can be controlled / mixed / figured out
+/*
+    Events:
+        SetMusicVolume(f32)
+        SetSoundFxVolume(f32)
+        StartMusic
+        StopMusic
+        PauseMusic
+        ResumeMusic
+        PlaySoundFx
+        StopSoundFx
+ */

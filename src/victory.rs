@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::AppState;
+use crate::{AppState, gameui};
 
 
 pub struct VictoryPlugin;
@@ -17,33 +17,17 @@ impl Plugin for VictoryPlugin {
 
 fn victory_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     let font = asset_server.load("fonts/FiraSans-Bold.ttf");
-    let style = TextStyle {
-        font: font.clone(),
-        font_size: 100.0,
-        color: Color::WHITE,
-    };
-    let style2 = TextStyle {
-        font: font.clone(),
-        font_size: 30.0,
-        color: Color::GRAY,
-    };
 
     commands
         .spawn((
             NodeBundle {
-                style: Style {
-                    size: Size::width(Val::Percent(100.0)),
-                    align_items: AlignItems::Center,
-                    justify_content: JustifyContent::Center,
-                    flex_direction: FlexDirection::Column,
-                    ..default()
-                },
+                style: gameui::styles::container::frame(),
                 ..default()
             },
         ))
         .with_children(|parent| {
-            parent.spawn(TextBundle::from_section("Victory!", style));
-            parent.spawn(TextBundle::from_section("thats it... go home, press Esc", style2));
+            parent.spawn(TextBundle::from_section("Victory!", gameui::styles::headers::h1(font.clone())));
+            parent.spawn(TextBundle::from_section("thats it... go home, press Esc", gameui::styles::headers::h2(font.clone())));
         });
 }
 
