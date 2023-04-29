@@ -37,11 +37,16 @@ fn game_enter(mut commands: Commands, mut tile_puzzle: ResMut<TilePuzzle>, mut e
 }
 fn process_actions(
     action: Res<Actions>,
+    keys: Res<Input<KeyCode>>,
     mut state: ResMut<NextState<AppState>>,
     mut event_writer: EventWriter<AudioEvent>,
     mut tile_puzzle: ResMut<TilePuzzle>,
     mut tiles: Query<(&mut TileInfo, &mut Sprite)>,
 ) {
+    if keys.just_pressed(KeyCode::M) {
+        event_writer.send(AudioEvent(AudioEventData::ToggleMute))
+
+    }
     // Handle Clicks
     if action.activated {
         if let Some((x, y)) = action.grid_selection {

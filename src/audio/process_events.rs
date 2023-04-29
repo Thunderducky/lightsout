@@ -6,7 +6,7 @@ use bevy_kira_audio::prelude::*;
 
 use crate::loading::AudioAssets;
 
-use super::{MusicChannel, ChannelAudioState, GameSfxChannel, AudioEvent, AudioEventData};
+use super::{AudioEvent, AudioEventData, ChannelAudioState, GameSfxChannel, MusicChannel};
 
 #[allow(dead_code)]
 pub fn keyboard_test(keys: Res<Input<KeyCode>>, mut event_writer: EventWriter<AudioEvent>) {
@@ -21,11 +21,12 @@ pub fn keyboard_test(keys: Res<Input<KeyCode>>, mut event_writer: EventWriter<Au
 }
 
 pub fn process_audio_events(
-  mut event_reader: EventReader<AudioEvent>,
-  // mut music_channel_state: ResMut<ChannelAudioState<MusicChannel>>,
-  mut music_channel: Res<AudioChannel<MusicChannel>>,
-  mut sfx_channel: Res<AudioChannel<GameSfxChannel>>,
-  audio_sources: Res<AudioAssets>
+    mut event_reader: EventReader<AudioEvent>,
+    mut music_channel_state: ResMut<ChannelAudioState<MusicChannel>>,
+    mut sfx_channel_state: ResMut<ChannelAudioState<GameSfxChannel>>,
+    music_channel: Res<AudioChannel<MusicChannel>>,
+    sfx_channel: Res<AudioChannel<GameSfxChannel>>,
+    audio_sources: Res<AudioAssets>,
 ) {
     for ev in event_reader.iter() {
         match ev.0 {
@@ -36,35 +37,23 @@ pub fn process_audio_events(
             AudioEventData::StartMusic => {
                 println!("Start music");
                 // If we already have music then don't start it again
-                music_channel.play(audio_sources.bg_music.clone());
+                music_channel_state.paused = false;
+                music_channel_state.stopped = false;
+                music_channel_state.volume = 1.0;
+                music_channel_state.loop_started = true;
+                music_channel.play(audio_sources.bg_music.clone()).looped();
+            }
+            AudioEventData::ToggleMute => {
+                if music_channel_state.volume > 0.0 {
+                    music_channel_state.volume = 0.0;
+                    sfx_channel_state.volume = 0.0;
+                } else {
+                    music_channel_state.volume = 1.0;
+                    sfx_channel_state.volume = 1.0;
+                }
+                sfx_channel.set_volume(sfx_channel_state.volume);
+                music_channel.set_volume(music_channel_state.volume);
             }
         }
     }
 }
-
-/*
-
-fn play_sound_button<T: Component + Default>(
-    channel: Res<AudioChannel<T>>,
-    time: Res<Time>,
-    mut last_action: ResMut<LastAction>,
-    mut channel_state: ResMut<ChannelAudioState<T>>,
-    audio_handles: Res<AudioHandles>,
-    mut interaction_query: Query<(&Interaction, &mut BackgroundColor), With<PlaySoundButton<T>>>,
-) {
-    let (interaction, mut color) = interaction_query.single_mut();
-    *color = if interaction == &Interaction::Hovered {
-        HOVERED_BUTTON.into()
-    } else {
-        NORMAL_BUTTON.into()
-    };
-    if interaction == &Interaction::Clicked {
-        if !last_action.action(&time) {
-            return;
-        }
-        channel_state.paused = false;
-        channel_state.stopped = false;
-        channel.play(audio_handles.sound_handle.clone());
-    }
-}
- */
