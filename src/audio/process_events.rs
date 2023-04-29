@@ -8,7 +8,7 @@ use crate::loading::AudioAssets;
 
 use super::{MusicChannel, ChannelAudioState, GameSfxChannel, AudioEvent, AudioEventData};
 
-
+#[allow(dead_code)]
 pub fn keyboard_test(keys: Res<Input<KeyCode>>, mut event_writer: EventWriter<AudioEvent>) {
     if keys.just_pressed(KeyCode::S) {
         // Space was pressed
@@ -22,7 +22,7 @@ pub fn keyboard_test(keys: Res<Input<KeyCode>>, mut event_writer: EventWriter<Au
 
 pub fn process_audio_events(
   mut event_reader: EventReader<AudioEvent>,
-  mut music_channel_state: ResMut<ChannelAudioState<MusicChannel>>,
+  // mut music_channel_state: ResMut<ChannelAudioState<MusicChannel>>,
   mut music_channel: Res<AudioChannel<MusicChannel>>,
   mut sfx_channel: Res<AudioChannel<GameSfxChannel>>,
   audio_sources: Res<AudioAssets>

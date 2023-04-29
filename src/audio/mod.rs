@@ -38,7 +38,7 @@ impl Plugin for InternalAudioPlugin {
             .add_system(process_audio_events.run_if(resource_exists::<AudioAssets>()))
             ;
 
-        app.add_system(keyboard_test);
+        // app.add_system(keyboard_test);
     }
 }
 
