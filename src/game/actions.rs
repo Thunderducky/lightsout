@@ -7,7 +7,8 @@ use super::TileInfo;
 #[derive(Default, Resource)]
 pub struct Actions {
     pub grid_selection: Option<(i32, i32)>,
-    pub clicked: bool
+    pub activated: bool,
+    pub selected: bool
 }
 
 pub struct ActionsPlugin;
@@ -32,8 +33,9 @@ fn process_input_commands(
     let mut mouse_position = Vec2::ZERO;
     for event in cursor_moved_events.iter() {
         mouse_position = event.position;
+        action.selected = false;
     }
-    action.clicked = buttons.just_pressed(MouseButton::Left);
+    action.activated = buttons.just_pressed(MouseButton::Left);
     
     let camera = camera_q.single();
     let world_point_option = screen_to_world(camera, mouse_position);
@@ -45,6 +47,7 @@ fn process_input_commands(
         for (tile, transform) in query.iter() {
             if transform_contains_point(&transform, world_point) {
                 action.grid_selection = Some((tile.grid_x, tile.grid_y));
+                action.selected = true;
             }
         }
     }

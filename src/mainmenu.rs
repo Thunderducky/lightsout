@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::loading::FontAssets;
-use crate::AppState;
+use crate::{AppState, gameui};
 
 pub struct MainMenuPlugin;
 
@@ -28,8 +28,8 @@ struct ButtonColors {
 impl Default for ButtonColors {
     fn default() -> ButtonColors {
         ButtonColors {
-            normal: Color::rgb(0.15, 0.15, 0.15),
-            hovered: Color::rgb(0.25, 0.25, 0.25),
+            normal: gameui::colors::button::NORMAL,
+            hovered: gameui::colors::button::PRESSED,
         }
     }
 }
@@ -43,24 +43,14 @@ fn main_menu_setup(
     commands.spawn(Camera2dBundle::default());
     commands
     .spawn(ButtonBundle {
-        style: Style {
-            size: Size::new(Val::Px(120.0), Val::Px(50.0)),
-            margin: UiRect::all(Val::Auto),
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-            ..Default::default()
-        },
+        style: gameui::styles::button::default(),
         background_color: button_colors.normal.into(),
         ..Default::default()
     })
     .with_children(|parent| {
         parent.spawn(TextBundle::from_section(
             "Play",
-            TextStyle {
-                font: font_assets.fira_sans_bold.clone(),
-                font_size: 40.0,
-                color: Color::rgb(0.9, 0.9, 0.9),
-            },
+            gameui::styles::button::text(font_assets.fira_sans_bold.clone()),
         ));
     }).insert(MainMenuUI);
 }

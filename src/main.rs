@@ -1,16 +1,15 @@
 use bevy::prelude::*;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
+
 use illumination_no_no::AppPlugin;
 
-// mod lightsout;
-// mod utils;
-// mod gameplugin;
-// mod mainmenuplugin;
-// mod victoryscreenplugin;
 const BACKGROUND_COLOR: Color = Color::rgb(0.1, 0.1, 0.1);
 
+const ENABLE_INSPECTOR: bool = false;
+
 fn main() {
-    App::new()
-        .insert_resource(Msaa::Off)
+    let mut app = App::new();
+    app.insert_resource(Msaa::Off)
         .insert_resource(ClearColor(BACKGROUND_COLOR))
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
@@ -20,7 +19,11 @@ fn main() {
                 ..default()
             }),
             ..default()
-        }))
-        .add_plugin(AppPlugin)
-        .run();
+        }));
+
+    if ENABLE_INSPECTOR {
+        app.add_plugin(WorldInspectorPlugin::new());
+    }
+
+    app.add_plugin(AppPlugin).run();
 }

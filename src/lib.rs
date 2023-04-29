@@ -3,6 +3,7 @@ mod mainmenu;
 mod audio;
 mod game;
 mod victory;
+mod gameui;
 
 use bevy::prelude::*;
 
@@ -12,6 +13,8 @@ use crate::mainmenu::MainMenuPlugin;
 use crate::loading::LoadingPlugin;
 use crate::victory::VictoryPlugin;
 use crate::audio::InternalAudioPlugin;
+
+
 
 #[derive(Clone, Copy, Default, Eq, PartialEq, Debug, Hash, States)]
 pub enum AppState {

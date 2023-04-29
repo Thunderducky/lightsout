@@ -1,8 +1,9 @@
 pub mod actions;
+mod puzzle_word_encoder;
 mod tile_puzzle;
 
 use self::{actions::Actions, tile_puzzle::TilePuzzle};
-use crate::AppState;
+use crate::{AppState, audio::{AudioEvent, AudioEventData}};
 use bevy::prelude::*;
 
 pub struct GamePlugin;
@@ -17,8 +18,9 @@ impl Plugin for GamePlugin {
     }
 }
 
-fn game_enter(mut commands: Commands, mut tile_puzzle: ResMut<TilePuzzle>) {
+fn game_enter(mut commands: Commands, mut tile_puzzle: ResMut<TilePuzzle>, mut event_writer: EventWriter<AudioEvent>,) {
     // Initialize a level
+    event_writer.send(AudioEvent(AudioEventData::StartMusic));
     tile_puzzle.generate_random_puzzle();
 
     for (index, value) in tile_puzzle.tile_values.iter().enumerate() {
@@ -36,14 +38,15 @@ fn game_enter(mut commands: Commands, mut tile_puzzle: ResMut<TilePuzzle>) {
 fn process_actions(
     action: Res<Actions>,
     mut state: ResMut<NextState<AppState>>,
+    mut event_writer: EventWriter<AudioEvent>,
     mut tile_puzzle: ResMut<TilePuzzle>,
     mut tiles: Query<(&mut TileInfo, &mut Sprite)>,
 ) {
     // Handle Clicks
-    if action.clicked {
+    if action.activated {
         if let Some((x, y)) = action.grid_selection {
             tile_puzzle.toggle_tile(x, y);
-
+            event_writer.send(AudioEvent(AudioEventData::PlaySound));
             // Don't need to do this all the time
             for (tile_info, mut sprite) in tiles.iter_mut() {
                 let index = (tile_info.grid_y * tile_puzzle.width + tile_info.grid_x) as usize;
@@ -57,15 +60,14 @@ fn process_actions(
     if tile_puzzle.is_solved() {
         info!("You win!");
         state.set(AppState::Victory);
-
     }
     // check for victory
 }
 
 fn game_exit(mut commands: Commands, query: Query<Entity, With<TileInfo>>) {
-  for entity in query.iter() {
-      commands.entity(entity).despawn();
-  }
+    for entity in query.iter() {
+        commands.entity(entity).despawn();
+    }
 }
 
 #[derive(Component)]
@@ -74,7 +76,7 @@ pub struct TileInfo {
     pub grid_y: i32,
     pub light_on: bool,
 }
-// TODO: Convert this to a resource
+// TODO: Convert this to a resource, also, convert this in the colorize plugin
 const OFF_BUTTON: Color = Color::hsl(195., 1., 0.2);
 const ON_BUTTON: Color = Color::hsl(195., 1., 0.7);
 
